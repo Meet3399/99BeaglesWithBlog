@@ -1,4 +1,13 @@
 <script>	
+  import { goto } from '@sapper/app';
+  import {token} from './store';
+  let jwt;
+	token.subscribe(value=>{
+		jwt = value
+	})
+	const goToBlog = ()=>{
+		goto('/login')
+	}
 </script>
 
 <!--<style>
@@ -38,4 +47,6 @@
 <svelte:head>
 	<title>99 Beagles</title>
 </svelte:head>
+
+<button on:click|preventDefault={goToBlog} >Go to Login</button>
 
