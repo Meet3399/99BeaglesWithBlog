@@ -52,14 +52,15 @@ export async function post(req, res) {
                     console.log("Invalid Token in verification");
                     res.json('Please login with correct credentials');
                 } else {
+                    const data = getData();
+                    data.then(data=>{
+                        console.log(data)
+                        res.send(data)
+                    })
+                    
                     console.log("Valid Token.");
-                    // const targetUrl =
-                    //     "https://www.99beagles.com/api/v2/pages/?type=blog.BlogPage&fields=body";
-                    // fetch(targetUrl).then(response=>response.json().then(data=>{
-                    //     console.log(data)
-                    //     res.send(data)
-                    // }));
-                    res.json("Blog will come here");
+                    
+
                 }
             })
         }
@@ -69,4 +70,18 @@ export async function post(req, res) {
         }
     });
 
+}
+
+const getData = async()=>{
+    try{
+        const proxyUrl = "https://still-taiga-46464.herokuapp.com/";
+        const targetUrl = "https://www.99beagles.com/api/v2/pages/?type=blog.BlogPage&fields=body";
+        const response  = await fetch( targetUrl)
+        const data = await response.json()
+        return data
+    }
+    catch(error){
+        console.log(error)
+        return error
+    }
 }

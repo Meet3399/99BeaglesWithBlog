@@ -8,6 +8,7 @@
         UserPoolId: "ap-south-1_X1JBEegHF",
         ClientId: "778sn7ks85dqbp0op5hjg81bt1",
     };
+    let userLoggedIn = false;
     const pool_region = "ap-south-1";
     const userPool = new CognitoUserPool(poolData);
 
@@ -55,6 +56,7 @@
                 //[login.email, login.password, login.confirmPassword] = ["","",""];
             }
         } else {
+            const start = new Date().getTime()
             try {
                 const loginDetails = {
                     Username: login.email,
@@ -71,6 +73,7 @@
                         // console.log(data)
                             token.set(data);
                             goto('/');
+                            console.log(new Date().getTime() - start, 'ms')
                             [login.email, login.password] = ["", ""];
                         //res.json(data)
                     },
