@@ -1,9 +1,13 @@
 <script>
 	export let segment;
-	  import {token} from '../routes/store';
+	  import {token , userName} from '../routes/store';
   let jwt;
+  let name;
 	token.subscribe(value=>{
 		jwt = value
+	})
+	userName.subscribe(value=>{
+		name = value
 	})
 </script>
 
@@ -51,6 +55,12 @@
 		padding: 1em 0.5em;
 		display: block;
 	}
+	p {
+		display: inline;
+		float: right;
+		font-weight: bolder !important;
+		font-family: cursive;
+	}
 </style>
 
 <nav>
@@ -66,5 +76,9 @@
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
 		<!-- <li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li> -->
+	
+		{#if jwt}
+			<p>Hey, {name}</p>
+		{/if}
 	</ul>
 </nav>

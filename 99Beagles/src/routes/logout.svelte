@@ -1,6 +1,7 @@
 <script>
     import { goto } from '@sapper/app';
-    import { token } from "./store";
+    import { token, userName } from "./store";
     token.set(null)
+    userName.set(null)
     goto('/');
 </script>

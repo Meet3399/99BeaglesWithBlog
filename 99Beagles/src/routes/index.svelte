@@ -1,13 +1,37 @@
-<script>	
-  import { goto } from '@sapper/app';
-  import {token} from './store';
-  let jwt;
-	token.subscribe(value=>{
-		jwt = value
-	})
-	const goToBlog = ()=>{
-		goto('/login')
-	}
+<script>
+	import { goto } from "@sapper/app";
+	import { onMount } from "svelte";
+	import { token, userName } from "./store";
+	let jwt;
+	let data= {
+		name: ''
+	};
+	token.subscribe((value) => {
+		jwt = value;
+	});
+	const goToBlog = () => {
+		goto("/login");
+	};
+	onMount(async () => {
+		const start = new Date().getTime()
+		if (jwt) {
+			try {
+				const response = await fetch("/username", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+					},
+					body: JSON.stringify({ token: jwt.idToken.jwtToken }),
+				});
+				data = await response.json();
+				userName.set(data.name);
+				console.log(new Date().getTime() - start, "ms");
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	});
 </script>
 
 <!--<style>
@@ -47,6 +71,4 @@
 <svelte:head>
 	<title>99 Beagles</title>
 </svelte:head>
-
-<button on:click|preventDefault={goToBlog} >Go to Login</button>
-
+<button on:click|preventDefault={goToBlog}>Go to Login</button>

@@ -1,4 +1,3 @@
-
 global.fetch = require('node-fetch');
 const request = require('request');
 const jwkToPem = require('jwk-to-pem');
@@ -11,14 +10,12 @@ const poolData = {
 };
 const pool_region = "ap-south-1";
 
-
-
 export async function post(req, res) {
-        res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Type', 'application/json');
     request({
         url: `https://cognito-idp.${pool_region}.amazonaws.com/${poolData.UserPoolId}/.well-known/jwks.json`,
         json: true
-        }, function (error, response, body) {
+    }, function (error, response, body) {
         //console.log(error , response , body)
         if (!error && response.statusCode === 200) {
             const pems = {};
@@ -36,10 +33,10 @@ export async function post(req, res) {
             var decodedJwt = jwt.decode(req.body.token, { complete: true });
             if (!decodedJwt) {
                 console.log("Not a valid JWT token");
-               res.json('Please login');
+                res.json('Please login');
             }
-            const {header} = decodedJwt;
-            const {kid} = header 
+            const { header } = decodedJwt;
+            const { kid } = header
             //console.log(kid)
             var pem = pems[kid];
             //console.log(pem)
@@ -47,19 +44,15 @@ export async function post(req, res) {
                 console.log('Invalid token');
                 res.json('Please login with correct credentials');
             }
-            jwt.verify(req.body.token, pem,function (err, payload) {
+            jwt.verify(req.body.token, pem, function (err, payload) {
                 if (err) {
                     console.log("Invalid Token in verification");
                     res.json('Please login with correct credentials');
                 } else {
-                    const data = getData();
-                    data.then(data=>{
-                        console.log(data , payload)
-                        res.send(data)
-                    })
-                    
-                    console.log("Valid Token.");
-                    
+                    // console.log(payload.name)
+                    res.send(payload)
+                    // console.log("Valid Token.");
+
 
                 }
             })
@@ -70,18 +63,4 @@ export async function post(req, res) {
         }
     });
 
-}
-
-const getData = async()=>{
-    try{
-        const proxyUrl = "https://still-taiga-46464.herokuapp.com/";
-        const targetUrl = "https://www.99beagles.com/api/v2/pages/?type=blog.BlogPage&fields=body";
-        const response  = await fetch( targetUrl)
-        const data = await response.json()
-        return data
-    }
-    catch(error){
-        console.log(error)
-        return error
-    }
 }

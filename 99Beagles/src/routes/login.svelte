@@ -5,14 +5,14 @@
     let displayData = "";
     let text = "Sign In";
     const poolData = {
-        UserPoolId: "ap-south-1_X1JBEegHF",
-        ClientId: "778sn7ks85dqbp0op5hjg81bt1",
+    UserPoolId: "ap-south-1_XoSVXEE6X",
+    ClientId: "1gnasru3ip9m5fsonvakbc58te"
     };
     let userLoggedIn = false;
     const pool_region = "ap-south-1";
     const userPool = new CognitoUserPool(poolData);
-
     const login = {
+        name: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -26,11 +26,16 @@
                         Name: "email",
                         Value: login.email,
                     };
+                    const name = {
+                        Name: 'name',
+                        Value: login.name
+                    }
+                    const nameAttribute = new CognitoUserAttribute(name)
                     const emailAttribute = new CognitoUserAttribute(email);
                     userPool.signUp(
                         login.email,
                         login.password,
-                        [emailAttribute],
+                        [emailAttribute , nameAttribute],
                         null,
                         (err, data) => {
                             if (err) {
@@ -74,7 +79,6 @@
                             token.set(data);
                             goto('/');
                             console.log(new Date().getTime() - start, 'ms')
-                            [login.email, login.password] = ["", ""];
                         //res.json(data)
                     },
                         onFailure: data =>{
@@ -87,9 +91,6 @@
             catch (error) {
                 console.log(error);
             } 
-            finally {
-                // [login.email, login.password] = ["", ""];
-            }
         }
     };
     const switchToSignIn = () => {
@@ -125,6 +126,15 @@
 <h1>Please SignIn or Signup to continue</h1>
 <div id="displayData" class="displayData">{displayData}</div>
 <form>
+    {#if signup}
+        <div>
+            <label for="name">Name</label>
+            <input
+                type="text"
+                name="name"
+                bind:value={login.name} />
+        </div>
+    {/if}
     <div>
         <label for="email">Email</label>
         <input type="text" name="email" bind:value={login.email} />
