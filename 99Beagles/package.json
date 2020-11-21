@@ -22,6 +22,7 @@
     "request": "^2.88.2",
     "save": "^2.4.0",
     "sirv": "^1.0.0",
+    "sv-bootstrap-dropdown": "^0.4.4",
     "svelte-routing": "^1.4.2"
   },
   "devDependencies": {
