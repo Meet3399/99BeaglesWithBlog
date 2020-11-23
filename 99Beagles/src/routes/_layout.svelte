@@ -23,7 +23,17 @@ export async function preload(){
 					navCategoryData.push(navBarData);
 				}
 				navItems.push(navCategoryData)
-			} else {
+				} else {
+					if(data[0].menu[i].value.override_title === 'Home'){
+						const navBarData = {
+						navItem: data[0].menu[i].value.override_title,
+						navLink: data[0].menu[i].value.link,
+						hasSubNav:  false,
+						current: undefined
+					}
+						navItems.push(navBarData);
+					}
+					else{
 				const navBarData = {
 					navItem: data[0].menu[i].value.override_title,
 					current: data[0].menu[i].value.override_title.toLowerCase(),
@@ -31,6 +41,7 @@ export async function preload(){
 					hasSubNav:  false
 				};
 				navItems.push(navBarData);
+					}
 			}
 		}
 		// 	

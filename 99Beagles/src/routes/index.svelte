@@ -34,8 +34,9 @@
 	});
 </script>
 
-<!--<style>
-	h1, figure, p {
+<style>
+	/* @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"); */
+	/* h1, figure, p {
 		text-align: center;
 		margin: 0 auto;
 	}
@@ -65,8 +66,8 @@
 		h1 {
 			font-size: 4em;
 		}
-	}
-</style>-->
+	} */
+</style>
 
 <svelte:head>
 	<title>99 Beagles</title>

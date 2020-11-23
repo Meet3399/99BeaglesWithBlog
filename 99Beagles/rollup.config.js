@@ -29,7 +29,9 @@ export default {
 			}),
 			replace({
 				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				include: '**/node_modules/**',
+
 			}),
 			svelte({
 				dev,
@@ -78,7 +80,8 @@ export default {
 		plugins: [
 			replace({
 				'process.browser': false,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				include: '**/node_modules/**',
 			}),
 			svelte({
 				generate: 'ssr',

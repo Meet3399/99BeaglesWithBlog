@@ -1,20 +1,24 @@
-
 <script>
 	export let segment;
 	import { token, userName } from "../routes/store";
 	let jwt;
 	let name;
+	let selected;
 	export let navItems;
-	
+	import {
+		Dropdown,
+		DropdownItem,
+		DropdownMenu,
+		DropdownToggle,
+	} from "sveltestrap";
+	let isOpen = false;
+
 	token.subscribe((value) => {
 		jwt = value;
 	});
 	userName.subscribe((value) => {
 		name = value;
 	});
-
-	
-
 </script>
 
 <style>
@@ -47,20 +51,24 @@
 		display: inline-block;
 	}
 
-	select{
-		/* position: absolute;
-		content: "";
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(255, 62, 0);
-		display: block; */
-		/* bottom: -1px; */
+	select {
 		border: none;
-		width: 100px;
-		position: relative;
-		top:15px;
-		margin: 5px;
-
+		/* color: #007bff; */
+		padding: 19px 11px;
+		font-size: 16px;
+		display: block;
+		text-align: left;
+		font-weight: 300;
+		width: 110px;
+	}
+	Dropdown {
+		padding: 19px 11px;
+		font-size: 16px;
+		display: block;
+		text-align: left;
+		font-weight: 300;
+		border: none;
+		/* width: 110px; */
 	}
 
 	[aria-current]::after {
@@ -74,92 +82,69 @@
 	}
 
 	a {
+		color: inherit;
 		text-decoration: none;
 		padding: 1em 0.5em;
 		display: block;
 	}
-	p {
+	/* p {
 		display: inline;
 		float: right;
 		font-weight: bolder !important;
 		font-family: cursive;
-	}
+	} */
 </style>
 
 <nav>
 	<ul>
-		{#each navItems as nav,index }
-			
-				<!-- {console.log(index,nav)} -->
-			
-				{#if !Array.isArray(nav)}
-					{#if nav.navItem === 'Login'}
-						{#if !jwt}
-							<!-- {console.log("Coming in if block")} -->
-							<li>
-							<a aria-current={segment === nav.current ? 'page' : undefined}
-							href={nav.navLink}>{nav.navItem}</a>
-							</li>
-						{/if}
-					{:else if nav.navItem === 'Logout'}
-						{#if jwt}
-							<!-- {console.log("Coming in else if block")} -->
-							<li>
-								<a aria-current={segment === nav.current ? 'page' : undefined}
-								href={nav.navLink}>{nav.navItem}</a>
-							</li>
-						{/if}
-					{:else}
-						<!-- {console.log("Coming in else block")} -->
+		{#each navItems as nav}
+			<!-- {console.log(index,nav)} -->
+
+			{#if !Array.isArray(nav)}
+				{#if nav.navItem === 'Login'}
+					{#if !jwt}
+						<!-- {console.log("Coming in if block")} -->
 						<li>
-							<a aria-current={segment === nav.current ? 'page' : undefined}
-							href={nav.navLink}>{nav.navItem}</a>
+							<a
+								aria-current={segment === nav.current ? 'page' : undefined}
+								href={nav.navLink}>{nav.navItem}</a>
+						</li>
+					{/if}
+				{:else if nav.navItem === 'Logout'}
+					{#if jwt}
+						<li>
+							<a
+								aria-current={segment === nav.current ? 'page' : undefined}
+								href={nav.navLink}>{nav.navItem}</a>
 						</li>
 					{/if}
 				{:else}
+					<!-- {console.log("Coming in else block")} -->
 					<li>
-						<select>
-							{#each nav as n}
-								<option>{n.navItem}</option>
-							{/each}
-						</select>
+						<a
+							aria-current={segment === nav.current ? 'page' : undefined}
+							href={nav.navLink}>{nav.navItem}</a>
 					</li>
-					<!-- <select>
-						{#each nav as navOptions}
-							{#if navOptions.subnav}
-								<option>
-									<a href={navOptions.navLink}>{navOptions.navItem}</a>
-								</option>
-							{:else}
-								<option>{navOptions.navItem}</option>
-							{/if}
-						{/each} 
-					</select>						 -->
 				{/if}
-			{/each}
-		<!-- <li>
-			<a
-				aria-current={segment === undefined ? 'page' : undefined}
-				href="/">Home</a>
-		</li>
-		<li>
-			<a
-				aria-current={segment === 'about' ? 'page' : undefined}
-				href="/about">Blog</a>
-		</li>
-		{#if !jwt}
-			<li>
-				<a
-					aria-current={segment === 'login' ? 'page' : undefined}
-					href="/login">Login</a>
-			</li>
-		{:else}
-			<li>
-				<a
-					aria-current={segment === 'logout' ? 'page' : undefined}
-					href="/logout">Logout</a>
-			</li>
-		{/if} -->
+			{:else}
+				<li>
+					<Dropdown style='padding: 11px 6px;font-size: 16px;font-weight: 300;border: none;' {isOpen} toggle={() => (isOpen = !isOpen)}>
+						<DropdownToggle style='color: black!important;background-color:white!important;font-weight:300;border:none;border:color: none!important' caret>{nav[0].navItem}</DropdownToggle>
+						<DropdownMenu>
+							{#each nav as n}
+								<!-- svelte-ignore empty-block -->
+								{#if n.hasSubNav}
+								{:else}
+									<DropdownItem>
+										<a href={n.navLink}>{n.navItem}</a>
+									</DropdownItem>
+								{/if}
+							{/each}
+						</DropdownMenu>
+					</Dropdown>
+				</li>
+			{/if}
+		{/each}
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
