@@ -51,25 +51,6 @@
 		display: inline-block;
 	}
 
-	select {
-		border: none;
-		/* color: #007bff; */
-		padding: 19px 11px;
-		font-size: 16px;
-		display: block;
-		text-align: left;
-		font-weight: 300;
-		width: 110px;
-	}
-	Dropdown {
-		padding: 19px 11px;
-		font-size: 16px;
-		display: block;
-		text-align: left;
-		font-weight: 300;
-		border: none;
-		/* width: 110px; */
-	}
 
 	[aria-current]::after {
 		position: absolute;
@@ -87,12 +68,14 @@
 		padding: 1em 0.5em;
 		display: block;
 	}
-	/* p {
+	p {
 		display: inline;
 		float: right;
 		font-weight: bolder !important;
 		font-family: cursive;
-	} */
+		top: 10px;
+		position: relative;
+	}
 </style>
 
 <nav>
@@ -119,7 +102,6 @@
 						</li>
 					{/if}
 				{:else}
-					<!-- {console.log("Coming in else block")} -->
 					<li>
 						<a
 							aria-current={segment === nav.current ? 'page' : undefined}
