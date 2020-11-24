@@ -15,6 +15,8 @@
 	onMount(async () => {
 		const start = new Date().getTime()
 		if (jwt) {
+			// jwt = JSON.parse(jwt)
+			console.log(jwt)
 			try {
 				const response = await fetch("/username", {
 					method: "POST",
