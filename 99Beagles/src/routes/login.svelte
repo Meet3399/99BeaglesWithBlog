@@ -77,7 +77,7 @@
                         onSuccess: data=>{  
                         // console.log(data)
                             token.set(data);
-                            localStorage.setItem('token',token)
+                            //localStorage.setItem('token',token) 
                             goto('/');
                             console.log(new Date().getTime() - start, 'ms')
                         //res.json(data)

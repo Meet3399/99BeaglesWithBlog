@@ -10,9 +10,9 @@
 		DropdownItem,
 		DropdownMenu,
 		DropdownToggle,
-	} from "sveltestrap";
+	} from "sveltestrap/src";
 	let isOpen = false;
-
+	// console.log(localStorage.getItem('token'), jwt)
 	token.subscribe((value) => {
 		jwt = value;
 	});
